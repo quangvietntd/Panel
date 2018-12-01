@@ -19,17 +19,17 @@ export default class Panel extends Component {
     }
 
     toggle() {
-
-        let initialValue = this.state.expanded ? this.state.maxHeight + this.state.minHeight : this.state.minHeight;
-        let finalValue = this.state.expanded ? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
+        const {expanded, bodyHeight, titleHeight, animation} = this.state;
+        const initialValue = expanded ? bodyHeight + titleHeight : titleHeight;
+        const finalValue = expanded ? titleHeight : bodyHeight + titleHeight;
 
         this.setState({
-            expanded: !this.state.expanded
+            expanded: !expanded
         });
 
-        this.state.animation.setValue(initialValue);
+        animation.setValue(initialValue);
         Animated.spring(
-            this.state.animation,
+            animation,
             {
                 toValue: finalValue
             }
@@ -37,15 +37,15 @@ export default class Panel extends Component {
 
     }
 
-    setMinHeight(event) {
+    setTitleHeight(event) {
         this.setState({
-            minHeight: event.nativeEvent.layout.height
+            titleHeight: event.nativeEvent.layout.height
         });
     }
 
-    setMaxHeight(event) {
+    setBodyHeight(event) {
         this.setState({
-            maxHeight: event.nativeEvent.layout.height
+            bodyHeight: event.nativeEvent.layout.height
         });
     }
 
@@ -57,12 +57,12 @@ export default class Panel extends Component {
         const { container, titleContainer, title, button, buttonImage, body } = styles;
         return (
             <Animated.View style={[container, { height: this.state.animation }]}>
-                <View style={titleContainer} onLayout={(event) => this.setMinHeight(event)}>
+                <View style={titleContainer} onLayout={(event) => this.setTitleHeight(event)}>
                     <Text style={title}>{this.state.title}</Text>
                     <TouchableHighlight
                         style={button}
                         onPress={() => this.toggle()}
-                        underlayColor='#f1f1f1'
+                        underlayColor='#ffffff'
                     >
                         <Image
                             style={buttonImage}
@@ -70,7 +70,7 @@ export default class Panel extends Component {
                         />
                     </TouchableHighlight>
                 </View>
-                <View style={body} onLayout={(event) => this.setMaxHeight(event)}>
+                <View style={body} onLayout={(event) => this.setBodyHeight(event)}>
                     {this.props.children}
                 </View>
             </Animated.View>

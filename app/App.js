@@ -24,25 +24,6 @@ Amet non velit fugiat amet aliqua deserunt. Nisi nulla laboris eiusmod esse dese
                 <Panel title="Another Panel">
                     <Text>Lorem ipsum dolor sit amet...</Text>
                 </Panel>
-                <Panel title="Another Panel">
-                    <Text>Lorem ipsum dolor sit amet...</Text>
-                </Panel>
-                <Panel title="Another Panel">
-                    <Text>Lorem ipsum dolor sit amet...</Text>
-                </Panel>
-                <Panel title="Another Panel">
-                    <Text>Lorem ipsum dolor sit amet...</Text>
-                </Panel>
-                <Panel title="Another Panel">
-                    <Text>Lorem ipsum dolor sit amet...</Text>
-                </Panel>
-                <Panel title="Another Panel">
-                    <Text>Lorem ipsum dolor sit amet...</Text>
-                </Panel>
-                <Panel title="Another Panel">
-                    <Text>Lorem ipsum dolor sit amet...</Text>
-                </Panel>
-
             </ScrollView>
         );
     }
