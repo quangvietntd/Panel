@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight, Image } from 'react-native';
+import { View, Text, TouchableHighlight, Image, Animated } from 'react-native';
 import styles from './Panel.component.style';
 
 
@@ -8,7 +8,8 @@ export default class Panel extends Component {
         super(props);
         this.state = {
             title: props.title,
-            expanded: true
+            expanded: true,
+            animation: new Animated.Value()
         };
 
         this.icons = {
@@ -19,6 +20,33 @@ export default class Panel extends Component {
 
     toggle() {
 
+        let initialValue = this.state.expanded ? this.state.maxHeight + this.state.minHeight : this.state.minHeight;
+        let finalValue = this.state.expanded ? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
+
+        this.setState({
+            expanded: !this.state.expanded
+        });
+
+        this.state.animation.setValue(initialValue);
+        Animated.spring(
+            this.state.animation,
+            {
+                toValue: finalValue
+            }
+        ).start();
+
+    }
+
+    setMinHeight(event) {
+        this.setState({
+            minHeight: event.nativeEvent.layout.height
+        });
+    }
+
+    setMaxHeight(event) {
+        this.setState({
+            maxHeight: event.nativeEvent.layout.height
+        });
     }
 
     render() {
@@ -28,8 +56,8 @@ export default class Panel extends Component {
         }
         const { container, titleContainer, title, button, buttonImage, body } = styles;
         return (
-            <View style={container}>
-                <View style={titleContainer}>
+            <Animated.View style={[container, { height: this.state.animation }]}>
+                <View style={titleContainer} onLayout={(event) => this.setMinHeight(event)}>
                     <Text style={title}>{this.state.title}</Text>
                     <TouchableHighlight
                         style={button}
@@ -42,10 +70,10 @@ export default class Panel extends Component {
                         />
                     </TouchableHighlight>
                 </View>
-                <View style={body}>
+                <View style={body} onLayout={(event) => this.setMaxHeight(event)}>
                     {this.props.children}
                 </View>
-            </View>
+            </Animated.View>
         );
     }
 }
